@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+    <script src="index.js"></script>
+
+</head>
+
+<body  x-data="widgets">
+    <br />
+    <h2 align="center" x-text="header"></h2>
+    <hr />
+
+    <div class="container">
+        <div class="card-deck">
+
+            <div :class="counter.border">
+                <div :class="counter.cardHeader">Counter widget</div>
+                <div :class="counter.cardBody">
+                    <h5 class="card-title">Add or Substract count</h5>
+                    <ul>
+                        <li class="card-text">
+                            The "Add or Subtract Count" widget. </li>
+                        <li>this
+                            widget allows users to quickly add or subtract counts to manipulate and track numerical
+                            data.
+                        </li>
+                    </ul>
+                </div>
+                <div class="card-footer bg-transparent border-default">
+                    <h5 x-text="counter.count"></h5>
+                    <hr />
+                    <button class="btn btn-danger" @click="counter.substract()">-</button>
+                    <button class="btn btn-success" @click="counter.add()">+</button>
+                </div>
+            </div>
+
+            <div x-data="{ num1: 3, num2: 1/2, result: '' }" class="card  border-warning">
+                <div class="card-header bg-transparent border-warning">Calculator Widget</div>
+                <div class="card-body  text-primary">
+                    <div class="form-group">
+                        <label for="num1">Number 1:</label>
+                        <input x-model="num1" type="number" class="form-control" id="num1">
+                    </div>
+                    <div class="form-group">
+                        <label for="num2">Number 2:</label>
+                        <input x-model="num2" type="number" class="form-control" id="num2">
+                    </div>
+                    <div class="form-group">
+                        <label for="result">Result:</label>
+                        <input x-model="result" type="text" class="form-control" id="result" readonly>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-primary" @click="result = parseFloat(num1) + parseFloat(num2)">Add</button>
+                    <button class="btn btn-primary"
+                        @click="result = parseFloat(num1) - parseFloat(num2)">Subtract</button>
+                    <button class="btn btn-primary"
+                        @click="result = parseFloat(num1) * parseFloat(num2)">Multiply</button>
+                    <button class="btn btn-primary"
+                        @click="result = parseFloat(num1) / parseFloat(num2)">Divide</button>
+                </div>
+            </div>
+
+
+        </div>
+
+        <hr />
+
+        <div>
+            <div class="card-deck">
+                <div class="card border">
+                    <div class="card-header">Word Widget</div>
+                    <div class="card-body">
+                        <h5 class="card-title">Search for a Word</h5>
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" placeholder="Enter a word" x-model="word">
+                            <button class="btn btn-primary" @click="search()">Search</button>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-transparent border-default">
+                        <div x-show="results.length">
+                            <h5 class="card-title" x-text="results[0].word"></h5>
+                            <hr>
+                            <template x-for="meaning in results[0].meanings">
+                                <h6 x-text="meaning.partOfSpeech"></h6>
+                                <ul>
+                                    <template x-for="definition in meaning.definitions">
+                                        <p x-text="definition.definition"></p>
+                                        <ul x-if="definition.example">
+                                            <li><strong>Example:</strong> <span x-text="definition.example"></span></li>
+                                        </ul>
+                                    </template>
+                                </ul>
+                            </template>
+                        </div>
+                        <div x-show="results.length === 0">No results found.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
