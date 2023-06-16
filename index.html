@@ -13,7 +13,7 @@
 
 </head>
 
-<body  x-data="widgets">
+<body x-data="widgets">
     <br />
     <h2 align="center" x-text="header"></h2>
     <hr />
@@ -75,36 +75,45 @@
         <hr />
 
         <div>
-            <div class="card-deck">
+            <div class="card-deck" style="height: 500px; overflow-y: scroll;">
                 <div class="card border">
                     <div class="card-header">Word Widget</div>
                     <div class="card-body">
                         <h5 class="card-title">Search for a Word</h5>
                         <div class="input-group mb-3">
-                            <input type="text" class="form-control" placeholder="Enter a word" x-model="word">
-                            <button class="btn btn-primary" @click="search()">Search</button>
+                            <input @keyup.debounce="search()" type="text" class="form-control" placeholder="Enter a word" x-model="word">
+                            <!-- <button class="btn btn-primary" @input="search()">Search</button> -->
                         </div>
+                        <div x-show="results.length === 0">
+                            No results found.
                     </div>
-                    <div class="card-footer bg-transparent border-default">
-                        <div x-show="results.length">
-                            <h5 class="card-title" x-text="results[0].word"></h5>
-                            <hr>
-                            <template x-for="meaning in results[0].meanings">
-                                <h6 x-text="meaning.partOfSpeech"></h6>
-                                <ul>
-                                    <template x-for="definition in meaning.definitions">
-                                        <p x-text="definition.definition"></p>
-                                        <ul x-if="definition.example">
-                                            <li><strong>Example:</strong> <span x-text="definition.example"></span></li>
-                                        </ul>
-                                    </template>
-                                </ul>
-                            </template>
-                        </div>
-                        <div x-show="results.length === 0">No results found.</div>
                     </div>
+                    <div x-show="results.length !== 0">
+                        <template x-for="result in results">
+                            <div class="card-footer bg-transparent border-default">
+                                <h5 class="card-title" x-text="result.word"></h5>
+                                <h6 x-text="result.definition"></h6>
+                                <hr>
+                                <strong>Example:</strong> <span x-text="result.example"></span></li>
+                                <div>
+                                    <strong>Thumbs Up:</strong> <span x-text="result.thumbs_up"></span>
+                                </div>
+                                <div>
+                                    <strong>Thumbs Down:</strong> <span x-text="result.thumbs_down"></span>
+                                </div>
+                                <div>
+                                    <strong>Permalink:</strong> <a :href="result.permalink" target="_blank"
+                                        x-text="result.permalink"></a>
+                                </div>
+                                <hr>
+                            </div>
+                        </template>
+                    </div>
+                    
                 </div>
+
             </div>
+
         </div>
     </div>
 

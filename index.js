@@ -48,14 +48,16 @@ document.addEventListener('alpine:init', () => {
         },
 
 
-        word: '',
+        word: 'chess',
         results: [],
-
+        isLoading: false,
         async search() {
             if (this.word.trim() !== '') {
-                this.results = await this.fetchWordDefinition(this.word.trim());
-                console.log(this.results[0].meanings[0].definitions.definition);
-                this.playAudio(this.results[0]?.phonetics[0]?.audio);
+                this.isLoading = true;
+                const apiResults = await this.fetchUrbanDictionaryDefinition(this.word.trim());
+                this.results = apiResults.list;
+                console.log(this.results)
+                this.isLoading = false;
             }
         },
 
@@ -65,14 +67,24 @@ document.addEventListener('alpine:init', () => {
                 audio.play();
             }
         },
-        fetchWordDefinition(word) {
-            return fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`)
+
+        async fetchUrbanDictionaryDefinition(term) {
+            const url = `https://mashape-community-urban-dictionary.p.rapidapi.com/define?term=${term}`;
+            const headers = {
+                'X-RapidAPI-Key': '4fd36d59eemshcf1fd0423eacb4ap169092jsncfd075a3b336',
+                'X-RapidAPI-Host': 'mashape-community-urban-dictionary.p.rapidapi.com'
+            };
+
+            return fetch(url, {
+                method: 'GET',
+                headers: headers
+            })
                 .then(response => response.json())
                 .catch(error => {
-                    console.error('Error:', error);
-                    return [];
+                    console.error(error);
                 });
         }
+
     }))
 })
 
